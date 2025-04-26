@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ResourceFormPopup from "@/components/ResourceFormPopup";
+import ResourceList from "@/components/ResourceList";
 
 // Navbar Component
 function Navbar() {
@@ -72,6 +73,12 @@ export default function Home() {
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <Hero onOpenForm={openForm} />
+      </div>
+      <div className="max-w-[85%] mx-auto mt-6">
+        <h2 className="text-2xl font-bold mb-6 font-serif">
+          Recent Shared Resources
+        </h2>
+        <ResourceList />
       </div>
       <footer className="mt-auto text-center p-4 bg-gray-100 border-t border-gray-300 font-serif">
         Powered by Taqwa &copy; {new Date().getFullYear()} Hadeed Institute. All

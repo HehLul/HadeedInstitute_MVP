@@ -1,0 +1,101 @@
+"use client";
+import React from "react";
+import Link from "next/link";
+
+export default function ResourceCard({ resource }) {
+  // Generate a random span for the grid
+  const colSpan = Math.random() > 0.7 ? "col-span-2" : "col-span-1";
+  const rowSpan = Math.random() > 0.8 ? "row-span-2" : "row-span-1";
+
+  // Generate a random border style
+  const borderWidth = Math.random() > 0.5 ? "border-2" : "border";
+
+  // Format date
+  const formattedDate = new Date(resource.created_at).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }
+  );
+
+  // Generate tag styles
+  const getTagStyle = () => {
+    return "bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full";
+  };
+
+  // Determine icon based on resource type
+  const getResourceIcon = () => {
+    switch (resource.resource_type) {
+      case "reflection":
+        return "💭";
+      case "video":
+        return "🎬";
+      case "pdf":
+        return "📄";
+      case "link":
+        return "🔗";
+      case "picture":
+        return "📷";
+      default:
+        return "📌";
+    }
+  };
+
+  return (
+    <div
+      className={`${colSpan} ${rowSpan} bg-white p-5 ${borderWidth} border-black hover:shadow-lg transition-shadow duration-300 font-serif relative`}
+    >
+      <div className="absolute top-3 right-3 text-lg">{getResourceIcon()}</div>
+
+      <h3 className="text-xl font-bold mb-2 pr-8">{resource.title}</h3>
+
+      <div className="text-sm text-gray-500 mb-3">
+        {resource.author ? `By ${resource.author}` : "Anonymous"} •{" "}
+        {formattedDate}
+      </div>
+
+      {resource.resource_type === "reflection" && (
+        <p className="text-gray-700 mb-4 line-clamp-3">{resource.body}</p>
+      )}
+
+      {resource.resource_type === "video" && resource.url && (
+        <div className="mb-4">
+          <Link
+            href={resource.url}
+            target="_blank"
+            className="text-green-700 hover:underline"
+          >
+            Watch Video →
+          </Link>
+        </div>
+      )}
+
+      {resource.resource_type === "link" && resource.url && (
+        <div className="mb-4">
+          <Link
+            href={resource.url}
+            target="_blank"
+            className="text-green-700 hover:underline"
+          >
+            Visit Link →
+          </Link>
+          {resource.body && (
+            <p className="text-gray-700 mt-2 line-clamp-2">{resource.body}</p>
+          )}
+        </div>
+      )}
+
+      {resource.tags && resource.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mt-3">
+          {resource.tags.map((tag, index) => (
+            <span key={index} className={getTagStyle()}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
