@@ -52,7 +52,7 @@ export default function ResourceList() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto">
         {resources.map((resource, index) => (
           <ResourceCard key={resource.id} resource={resource} index={index} />
         ))}

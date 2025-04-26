@@ -7,9 +7,9 @@ export default function ResourceCard({ resource, index }) {
   const isWide = index % 7 === 0 || index % 5 === 0;
   const isTall = index % 8 === 0;
 
-  // No col/row span on mobile, but maintain it for larger screens
-  const colSpan = "col-span-1";
-  const rowSpan = "row-span-1";
+  // Use responsive classes - uniform on mobile, varied on desktop
+  const colSpan = isWide ? "col-span-1 md:col-span-2" : "col-span-1";
+  const rowSpan = isTall ? "row-span-1 md:row-span-2" : "row-span-1";
 
   // Generate a deterministic border style
   const borderWidth = index % 3 === 0 ? "border-2" : "border";
@@ -47,9 +47,27 @@ export default function ResourceCard({ resource, index }) {
     }
   };
 
+  // Generate a subtle background color based on resource type
+  const getBgColor = () => {
+    switch (resource.resource_type) {
+      //   case "reflection":
+      //     return "bg-green-50";
+      //   case "video":
+      //     return "bg-blue-50";
+      //   case "pdf":
+      //     return "bg-yellow-50";
+      //   case "link":
+      //     return "bg-purple-50";
+      //   case "picture":
+      //     return "bg-pink-50";
+      default:
+        return "bg-white";
+    }
+  };
+
   return (
     <div
-      className={`${colSpan} ${rowSpan} bg-white p-5 ${borderWidth} border-black hover:shadow-lg transition-shadow duration-300 font-serif relative`}
+      className={`${colSpan} ${rowSpan} ${getBgColor()} p-5 ${borderWidth} border-black hover:shadow-lg transition-all duration-300 hover:scale-[1.01] font-serif relative rounded-sm`}
     >
       <div className="absolute top-3 right-3 text-lg">{getResourceIcon()}</div>
 
