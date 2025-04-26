@@ -2,13 +2,17 @@
 import React from "react";
 import Link from "next/link";
 
-export default function ResourceCard({ resource }) {
-  // Generate a random span for the grid
-  const colSpan = Math.random() > 0.7 ? "col-span-2" : "col-span-1";
-  const rowSpan = Math.random() > 0.8 ? "row-span-2" : "row-span-1";
+export default function ResourceCard({ resource, index }) {
+  // Apply varying sizes only on desktop/tablet
+  const isWide = index % 7 === 0 || index % 5 === 0;
+  const isTall = index % 8 === 0;
 
-  // Generate a random border style
-  const borderWidth = Math.random() > 0.5 ? "border-2" : "border";
+  // No col/row span on mobile, but maintain it for larger screens
+  const colSpan = "col-span-1";
+  const rowSpan = "row-span-1";
+
+  // Generate a deterministic border style
+  const borderWidth = index % 3 === 0 ? "border-2" : "border";
 
   // Format date
   const formattedDate = new Date(resource.created_at).toLocaleDateString(
