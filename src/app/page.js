@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ResourceFormPopup from "@/components/ResourceFormPopup";
 
 // Navbar Component
 function Navbar() {
@@ -39,7 +41,7 @@ function Navbar() {
 }
 
 // Hero Component
-function Hero() {
+function Hero({ onOpenForm }) {
   return (
     <div className="flex flex-col justify-center items-center text-center font-mono max-w-[75%] mx-auto">
       <h1 className="text-4xl font-bold mb-4">
@@ -49,7 +51,10 @@ function Hero() {
         A growing library of reflections and resources from Muslim brothers
         striving to live with purpose - through the lens of Islam.
       </h3>
-      <button className="text-xl bg-white border-2 border-black cursor-pointer transition duration-300 ease-in-out hover:scale-110 p-3 font-serif">
+      <button
+        onClick={onOpenForm}
+        className="text-lg bg-white border-2 border-black cursor-pointer transition duration-300 ease-in-out hover:scale-110 py-3 px-6 font-serif"
+      >
         + Share a Reflection or Resource
       </button>
     </div>
@@ -58,16 +63,22 @@ function Hero() {
 
 // Main Page Component
 export default function Home() {
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const openForm = () => setIsFormVisible(true);
+  const closeForm = () => setIsFormVisible(false);
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-300 to-white">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
-        <Hero />
+        <Hero onOpenForm={openForm} />
       </div>
       <footer className="mt-auto text-center p-4 bg-gray-100 border-t border-gray-300 font-serif">
         Powered by Taqwa &copy; {new Date().getFullYear()} Hadeed Institute. All
         Rights Reserved
       </footer>
+      {/* Resource Form Popup */}
+      <ResourceFormPopup isVisible={isFormVisible} onClose={closeForm} />
     </div>
   );
 }
